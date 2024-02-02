@@ -10,7 +10,7 @@ terraform {
 provider "aws" {}
 
 resource "aws_codecommit_repository" "dop_c02_01" {
-  repository_name = "dop_c02_01"
+  repository_name = "dop_c02_0a"
   description     = "DOP-C02用リポジトリ"
 }
 
