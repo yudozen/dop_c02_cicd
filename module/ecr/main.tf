@@ -1,3 +1,4 @@
+# Dockerレジストリ
 resource "aws_ecr_repository" "dop_c02_ecr" {
   name                 = var.name
   image_tag_mutability = "MUTABLE"
