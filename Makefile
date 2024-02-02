@@ -49,3 +49,12 @@ destroy:
 		-v ${PWD}/${TARGET_SERVICE}:${MOUNT_DEST} \
 		${IMAGE_NAME} \
 		destroy
+
+output:
+	docker run -it --rm \
+		-e AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
+		-e AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
+		-e AWS_REGION="${AWS_REGION}" \
+		-v ${PWD}/${TARGET_SERVICE}:${MOUNT_DEST} \
+		${IMAGE_NAME} \
+		output
