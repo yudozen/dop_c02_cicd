@@ -1,0 +1,6 @@
+.env.secret
+.terraform
+.terraform.*
+*.tfstate
+*.tfstate.*
+.vscode
