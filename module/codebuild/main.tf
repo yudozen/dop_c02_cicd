@@ -95,6 +95,11 @@ resource "aws_codebuild_project" "dop_c02_codebuild" {
       name  = "ECR_URI"
       value = var.ecr_repository_url
     }
+
+    environment_variable {
+      name  = "ORIGINAL_IMAGE_NAME"
+      value = "hashicorp/terraform:1.7.2"
+    }
   }
 
   source {
