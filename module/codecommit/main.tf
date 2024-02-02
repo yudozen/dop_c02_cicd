@@ -45,3 +45,11 @@ EOF
   filename = "${path.module}/codecommit_credentials.txt"
 }
 
+# 出力
+output "arn" {
+  value = aws_codecommit_repository.dop_c02_01.arn
+}
+
+output "clone_url_http" {
+  value = aws_codecommit_repository.dop_c02_01.clone_url_http
+}
