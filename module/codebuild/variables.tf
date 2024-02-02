@@ -11,3 +11,7 @@ variable "codecommit_arn" {
 variable "codecommit_clone_url_http" {
   type        = string
 }
+
+variable "ecr_repository_url" {
+  type        = string
+}

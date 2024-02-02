@@ -12,6 +12,12 @@ resource "aws_iam_policy" "codebuild_docker_policy" {
       "Action": [
         "ecr:GetAuthorizationToken",
         "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:GetRepositoryPolicy",
+        "ecr:DescribeRepositories",
+        "ecr:ListImages",
+        "ecr:DescribeImages",
+        "ecr:BatchGetImage",
         "ecr:InitiateLayerUpload",
         "ecr:UploadLayerPart",
         "ecr:CompleteLayerUpload",
@@ -80,11 +86,15 @@ resource "aws_codebuild_project" "dop_c02_codebuild" {
     type                        = "LINUX_CONTAINER"
     image_pull_credentials_type = "CODEBUILD"
 
-    # environment_variable {
-    #   name  = "SOME_KEY2"
-    #   value = "SOME_VALUE2"
-    #   type  = "PARAMETER_STORE"
-    # }
+    environment_variable {
+      name  = "AWS_DEFAULT_REGION"
+      value = "us-west-2"
+    }
+
+    environment_variable {
+      name  = "ECR_URI"
+      value = var.ecr_repository_url
+    }
   }
 
   source {

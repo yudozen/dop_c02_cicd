@@ -23,4 +23,5 @@ module "codebuild" {
     source = "../../module/codebuild"
     codecommit_arn = module.codecommit.arn
     codecommit_clone_url_http = module.codecommit.clone_url_http
+    ecr_repository_url = module.ecr.repository_url
 }

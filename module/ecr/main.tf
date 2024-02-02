@@ -7,3 +7,7 @@ resource "aws_ecr_repository" "dop_c02_ecr" {
     scan_on_push = false
   }
 }
+
+output "repository_url" {
+  value = aws_ecr_repository.dop_c02_ecr.repository_url
+}
