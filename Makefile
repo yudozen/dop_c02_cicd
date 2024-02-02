@@ -15,11 +15,13 @@ version:
 sh:
 	docker run -it --rm --entrypoint sh \
 		-v ${PWD}:${MOUNT_DEST} \
+		-w ${MOUNT_DEST}/${ENTRY_PATH} \
 		${IMAGE_NAME}
 
 init:
 	docker run -it --rm \
-		-v ${PWD}/${TARGET_SERVICE}:${MOUNT_DEST} \
+		-v ${PWD}:${MOUNT_DEST} \
+		-w ${MOUNT_DEST}/${ENTRY_PATH} \
 		${IMAGE_NAME} \
 		init
 
@@ -28,7 +30,8 @@ plan:
 		-e AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
 		-e AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
 		-e AWS_REGION="${AWS_REGION}" \
-		-v ${PWD}/${TARGET_SERVICE}:${MOUNT_DEST} \
+		-v ${PWD}:${MOUNT_DEST} \
+		-w ${MOUNT_DEST}/${ENTRY_PATH} \
 		${IMAGE_NAME} \
 		plan
 
@@ -37,7 +40,8 @@ apply:
 		-e AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
 		-e AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
 		-e AWS_REGION="${AWS_REGION}" \
-		-v ${PWD}/${TARGET_SERVICE}:${MOUNT_DEST} \
+		-v ${PWD}:${MOUNT_DEST} \
+		-w ${MOUNT_DEST}/${ENTRY_PATH} \
 		${IMAGE_NAME} \
 		apply
 
@@ -46,7 +50,8 @@ destroy:
 		-e AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
 		-e AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
 		-e AWS_REGION="${AWS_REGION}" \
-		-v ${PWD}/${TARGET_SERVICE}:${MOUNT_DEST} \
+		-v ${PWD}:${MOUNT_DEST} \
+		-w ${MOUNT_DEST}/${ENTRY_PATH} \
 		${IMAGE_NAME} \
 		destroy
 
@@ -55,6 +60,7 @@ output:
 		-e AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
 		-e AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
 		-e AWS_REGION="${AWS_REGION}" \
-		-v ${PWD}/${TARGET_SERVICE}:${MOUNT_DEST} \
+		-v ${PWD}:${MOUNT_DEST} \
+		-w ${MOUNT_DEST}/${ENTRY_PATH} \
 		${IMAGE_NAME} \
 		output

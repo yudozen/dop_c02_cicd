@@ -1,14 +1,3 @@
-terraform {
-    required_providers {
-        aws = {
-            source  = "hashicorp/aws"
-            version = "~> 5.0"
-        }
-    }
-}
-
-provider "aws" {}
-
 resource "aws_codecommit_repository" "dop_c02_01" {
   repository_name = "dop_c02_0a"
   description     = "DOP-C02用リポジトリ"
@@ -54,3 +43,4 @@ Password: ${aws_iam_service_specific_credential.dop_c02-code_commit-cred.service
 EOF
   filename = "${path.module}/codecommit_credentials.txt"
 }
+
