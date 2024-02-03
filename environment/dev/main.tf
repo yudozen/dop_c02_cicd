@@ -25,3 +25,11 @@ module "codebuild" {
     codecommit_clone_url_http = module.codecommit.clone_url_http
     ecr_repository_url = module.ecr.repository_url
 }
+
+module "codepipeline" {
+    source = "../../module/codepipeline"
+    codecommit_arn = module.codecommit.arn
+    codecommit_repository_name = module.codecommit.repository_name
+    codebuild_name = module.codebuild.name
+}
+

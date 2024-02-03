@@ -40,7 +40,16 @@ resource "aws_iam_policy" "codebuild_docker_policy" {
         "codecommit:GitPull"
       ],
       "Resource": "${var.codecommit_arn}"
-    }
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:ListBucket"
+      ],
+      "Resource": "*"
+    }  
   ]
 }
 EOF
@@ -109,4 +118,9 @@ resource "aws_codebuild_project" "dop_c02_codebuild" {
   }
 
   source_version = "master"
+}
+
+# 出力
+output "name" {
+  value = aws_codebuild_project.dop_c02_codebuild.name
 }

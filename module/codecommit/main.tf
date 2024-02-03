@@ -50,6 +50,10 @@ output "arn" {
   value = aws_codecommit_repository.dop_c02_01.arn
 }
 
+output "repository_name" {
+  value = aws_codecommit_repository.dop_c02_01.repository_name
+}
+
 output "clone_url_http" {
   value = aws_codecommit_repository.dop_c02_01.clone_url_http
 }
