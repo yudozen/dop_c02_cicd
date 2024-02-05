@@ -13,7 +13,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - echo "環境変数の値: ${ORIGINAL_IMAGE_NAME} ${MOUNT_DEST} ${ENTRY_PATH}"
+      - echo "環境変数の値:" ${ORIGINAL_IMAGE_NAME} ${MOUNT_DEST} ${ENTRY_PATH}
       - >
         docker build \
         --build-arg ORIGINAL_IMAGE_NAME=${ORIGINAL_IMAGE_NAME} \
