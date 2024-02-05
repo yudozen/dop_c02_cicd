@@ -11,6 +11,7 @@ build:
 
 version:
 	docker run --rm \
+		--entrypoint terraform \
 		${IMAGE_NAME} \
 		version
 
@@ -19,47 +20,46 @@ sh:
 		--entrypoint sh \
 		${IMAGE_NAME}
 
-init:
-	docker run -it --rm \
-		${IMAGE_NAME} \
-		init
-
 plan:
-	docker run -it --rm \
+	docker run --rm \
 		-e AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
 		-e AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
 		-e AWS_REGION="${AWS_REGION}" \
 		-v ${PWD}:${MOUNT_DEST} \
 		-w ${MOUNT_DEST}/${ENTRY_PATH} \
+		--entrypoint terraform \
 		${IMAGE_NAME} \
 		plan ${TARGET}
 
 apply:
-	docker run -it --rm \
+	docker run --rm \
 		-e AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
 		-e AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
 		-e AWS_REGION="${AWS_REGION}" \
 		-v ${PWD}:${MOUNT_DEST} \
 		-w ${MOUNT_DEST}/${ENTRY_PATH} \
+		--entrypoint terraform \
 		${IMAGE_NAME} \
 		apply ${TARGET}
 
 destroy:
-	docker run -it --rm \
+	docker run --rm \
 		-e AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
 		-e AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
 		-e AWS_REGION="${AWS_REGION}" \
 		-v ${PWD}:${MOUNT_DEST} \
 		-w ${MOUNT_DEST}/${ENTRY_PATH} \
+		--entrypoint terraform \
 		${IMAGE_NAME} \
 		destroy ${TARGET}
 
 output:
-	docker run -it --rm \
+	docker run --rm \
 		-e AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
 		-e AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
 		-e AWS_REGION="${AWS_REGION}" \
 		-v ${PWD}:${MOUNT_DEST} \
 		-w ${MOUNT_DEST}/${ENTRY_PATH} \
+		--entrypoint terraform \
 		${IMAGE_NAME} \
 		output

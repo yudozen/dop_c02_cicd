@@ -5,6 +5,8 @@ ARG MOUNT_DEST
 ARG ENTRY_PATH
 
 COPY . ${MOUNT_DEST}
+RUN chmod +x ${MOUNT_DEST}/entrypoint.sh
 
 WORKDIR ${MOUNT_DEST}/${ENTRY_PATH}
-ENTRYPOINT [ "terraform" ]
+
+ENTRYPOINT [ "/terraform/entrypoint.sh" ]
