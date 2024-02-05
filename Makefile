@@ -4,6 +4,8 @@ include .env.secret
 build:
 	docker build \
 		--build-arg ORIGINAL_IMAGE_NAME=${ORIGINAL_IMAGE_NAME} \
+		--build-arg MOUNT_DEST=${MOUNT_DEST} \
+		--build-arg ENTRY_PATH=${ENTRY_PATH} \
 		-t ${IMAGE_NAME} \
 		-f Dockerfile .
 
@@ -13,15 +15,12 @@ version:
 		version
 
 sh:
-	docker run -it --rm --entrypoint sh \
-		-v ${PWD}:${MOUNT_DEST} \
-		-w ${MOUNT_DEST}/${ENTRY_PATH} \
+	docker run -it --rm \
+		--entrypoint sh \
 		${IMAGE_NAME}
 
 init:
 	docker run -it --rm \
-		-v ${PWD}:${MOUNT_DEST} \
-		-w ${MOUNT_DEST}/${ENTRY_PATH} \
 		${IMAGE_NAME} \
 		init
 
