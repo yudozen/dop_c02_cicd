@@ -47,7 +47,6 @@ resource "aws_ecs_cluster" "dop_c02_ecs_cluster" {
   name = "dop_c02_ecs_cluster"
 }
 
-# CloudWatchロググループ
 resource "aws_cloudwatch_log_group" "dop_c02_ecs_log_group" {
   name = "/ecs/dop_c02_ecs_log_group"
 }
@@ -95,7 +94,7 @@ resource "aws_vpc" "dop_c02_ecs_vpc" {
   }
 }
 
-# VPCのサブネット（パブリック）
+# VPCのサブネット（パブリック）（NATゲートウェイ設置用）
 # https://docs.aws.amazon.com/ja_jp/vpc/latest/userguide/configure-subnets.html
 resource "aws_subnet" "dop_c02_ecs_public_subnet" {
   vpc_id            = aws_vpc.dop_c02_ecs_vpc.id
@@ -107,10 +106,33 @@ resource "aws_subnet" "dop_c02_ecs_public_subnet" {
   }
 }
 
+# VPCのサブネット（プライベート）（Fargateタスク実行用）
+resource "aws_subnet" "dop_c02_ecs_private_subnet" {
+  vpc_id            = aws_vpc.dop_c02_ecs_vpc.id
+  cidr_block = "10.0.2.0/24"
+
+  tags = {
+    Name = "dop_c02"
+  }
+}
+
 # インターネットゲートウェイ
 # https://docs.aws.amazon.com/ja_jp/vpc/latest/userguide/VPC_Internet_Gateway.html
 resource "aws_internet_gateway" "dop_c02_ecs_internet_gateway" {
   vpc_id = aws_vpc.dop_c02_ecs_vpc.id
+}
+
+# Elastic IPの作成（NATゲートウェイ用）
+resource "aws_eip" "dop_c02_ecs_eip" {
+  domain = "vpc"
+
+  depends_on = [aws_internet_gateway.dop_c02_ecs_internet_gateway]
+}
+
+# NATゲートウェイの作成
+resource "aws_nat_gateway" "dop_c02_ecs_nat_gateway" {
+  allocation_id = aws_eip.dop_c02_ecs_eip.id
+  subnet_id     = aws_subnet.dop_c02_ecs_public_subnet.id
 }
 
 # ルートテーブル（パブリックサブネット用）
@@ -127,6 +149,22 @@ resource "aws_route_table" "dop_c02_ecs_public_route_table" {
 resource "aws_route_table_association" "dop_c02_ecs_public_route_table_association" {
   subnet_id      = aws_subnet.dop_c02_ecs_public_subnet.id
   route_table_id = aws_route_table.dop_c02_ecs_public_route_table.id
+}
+
+# ルートテーブル（プライベートサブネット用）
+resource "aws_route_table" "dop_c02_ecs_private_route_table" {
+  vpc_id = aws_vpc.dop_c02_ecs_vpc.id
+
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.dop_c02_ecs_nat_gateway.id
+  }
+}
+
+# ルートテーブルの関連付け（プライベートサブネット）
+resource "aws_route_table_association" "dop_c02_ecs_private_route_table_association" {
+  subnet_id      = aws_subnet.dop_c02_ecs_private_subnet.id
+  route_table_id = aws_route_table.dop_c02_ecs_private_route_table.id
 }
 
 # セキュリティグループ

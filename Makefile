@@ -33,7 +33,7 @@ plan:
 		-v ${PWD}:${MOUNT_DEST} \
 		-w ${MOUNT_DEST}/${ENTRY_PATH} \
 		${IMAGE_NAME} \
-		plan
+		plan ${TARGET}
 
 apply:
 	docker run -it --rm \
@@ -43,7 +43,7 @@ apply:
 		-v ${PWD}:${MOUNT_DEST} \
 		-w ${MOUNT_DEST}/${ENTRY_PATH} \
 		${IMAGE_NAME} \
-		apply
+		apply ${TARGET}
 
 destroy:
 	docker run -it --rm \
@@ -53,7 +53,7 @@ destroy:
 		-v ${PWD}:${MOUNT_DEST} \
 		-w ${MOUNT_DEST}/${ENTRY_PATH} \
 		${IMAGE_NAME} \
-		destroy
+		destroy ${TARGET}
 
 output:
 	docker run -it --rm \
