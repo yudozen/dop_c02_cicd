@@ -4,4 +4,4 @@
 # terraform initを実行
 terraform init
 
-exec "$@"
+exec terraform "$@"
