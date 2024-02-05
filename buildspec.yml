@@ -11,7 +11,9 @@ phases:
       - whoami
       - pwd
       - ls -la
-      - . .env
+      - export ENV_PATH="$(pwd)/.env"
+      - echo $ENV_PATH
+      - . $ENV_PATH
   build:
     commands:
       - echo Build started on `date`
