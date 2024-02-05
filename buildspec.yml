@@ -11,7 +11,13 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build --build-arg ORIGINAL_IMAGE_NAME=${ORIGINAL_IMAGE_NAME} -t $ECR_URI:$IMAGE_TAG .
+      - >
+        docker build \
+        --build-arg ORIGINAL_IMAGE_NAME=${ORIGINAL_IMAGE_NAME} \
+        --build-arg MOUNT_DEST=${MOUNT_DEST} \
+        --build-arg ENTRY_PATH=${ENTRY_PATH} \
+        -t $ECR_URI:$IMAGE_TAG \
+        -f Dockerfile .
       - docker tag $ECR_URI:$IMAGE_TAG $ECR_URI:latest
   post_build:
     commands:
